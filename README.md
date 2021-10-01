@@ -1,11 +1,11 @@
 [![licence](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
-<!-- [![PyPI version](https://img.shields.io/badge/Install%20with-PyPI-brightgreen.svg?style=flat-square)](https://pypi.org/project/calcs/) -->
-<!-- [![install with bioconda](https://img.shields.io/badge/Install%20with-Bioconda-brightgreen.svg?style=flat-square)](https://anaconda.org/bioconda/calcs) -->
+[![PyPI version](https://img.shields.io/badge/Install%20with-PyPI-brightgreen.svg?style=flat-square)](https://pypi.org/project/seq2onehot/)
+<!-- [![install with bioconda](https://img.shields.io/badge/Install%20with-Bioconda-brightgreen.svg?style=flat-square)](https://anaconda.org/bioconda/seq2onehot) -->
 
 ## Description
 
-`seq2onehot` is a command-line tool encoding a DNA/RNA/protein sequence to a one-hot numpy array.  
-
+`seq2onehot` is a command-line tool encoding DNA/RNA/protein sequences to a one-hot numpy array.  
+z
 > :warning: All sequences must be the same lengths.
 
 To decode a one-hot numpy array to sequences, use `onehot2seq`.  
@@ -38,8 +38,13 @@ seq2onehot [options] -t/--type <dna/rna/protein> -i/--input <in.fasta> -o/--outp
 -a/--ambiguous: include ambiguous characters
 ```
 
+The ambigous characters are:
+- `XBZJ` for amino acid
+- `NVHDBMRWSYK` for DNA and RNA
+
 The detail of ambiguous characters is described here:  
 https://meme-suite.org/meme/doc/alphabets.html
+
 
 ## Examples
 
@@ -53,17 +58,14 @@ seq2onehot -t rna -i example/rna.fasta -o rna.npy
 # Protein sequences
 seq2onehot -t protein -i example/protein.fasta -o protein.npy
 
-# Protein sequences including ambiguous characters
-seq2onehot -t protein -a -i example/protein_ambiguous.fasta -o protein_ambiguous.npy
 ```
 
 ## One-hot array
 
 The output file contains 3d one-hot array of `RxNxL` (Read x Nucreotide/Amino acid x Letter)
 
-- Nucreotide order is `ACGT` (+ `NVHDBMRWSYK`) for DNA, `ACGU` (+ `NVHDBMRWSYK`) for RNA
-- Amino acid order is `ACDEFGHIKLMNPQRSTVWY` (+ `XBZJ`)
-
+- The order of nucreotide is `ACGT` (+ `NVHDBMRWSYK`) for DNA, `ACGU` (+ `NVHDBMRWSYK`) for RNA
+- The order of amino acid is `ACDEFGHIKLMNPQRSTVWY` (+ `XBZJ`)
 
 ```python
 # Original sequences:
