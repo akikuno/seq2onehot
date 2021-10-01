@@ -4,8 +4,10 @@ with open("README.md", "r") as f:
     long_description = f.read()
 
 setuptools.setup(
+    description="encoding a biological sequence to a one-hot numpy array",
+    install_requires=["numpy", "pandas"],
     name="seq2onehot",
-    version="0.0.1",
+    version="0.0.0.5",
     entry_points={
         'console_scripts': [
             'seq2onehot=seq2onehot.main:main',
@@ -13,7 +15,6 @@ setuptools.setup(
     },
     author="Akihiro Kuno",
     author_email="akuno@md.tsukuba.ac.jp",
-    description="encoding a biological sequence to a one-hot numpy array",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/akikuno/seq2onehot",
@@ -27,5 +28,4 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.7',
-    install_requires=["numpy", "pandas"],
 )
