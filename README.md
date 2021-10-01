@@ -38,23 +38,76 @@ seq2onehot [options] -t/--type <dna/rna/protein> -i/--input <in.fasta> -o/--outp
 -a/--ambiguous: include ambiguous characters
 ```
 
-The detail of ambiguous characters is descrived here:  
+The detail of ambiguous characters is described here:  
 https://meme-suite.org/meme/doc/alphabets.html
 
 ## Examples
 
 ```bash
 # DNA sequences
-seq2onehot -t dna -i examples/dna.fasta -o dna.npy
+seq2onehot -t dna -i example/dna.fasta -o dna.npy
 
 # RNA sequences
-seq2onehot -t rna -i examples/rna.fasta -o rna.npy
+seq2onehot -t rna -i example/rna.fasta -o rna.npy
 
 # Protein sequences
-seq2onehot -t protein -i examples/protein.fasta -o protein.npy
+seq2onehot -t protein -i example/protein.fasta -o protein.npy
 
 # Protein sequences including ambiguous characters
-seq2onehot -t protein -a -i examples/protein_ambiguous.fasta -o protein_ambiguous.npy
+seq2onehot -t protein -a -i example/protein_ambiguous.fasta -o protein_ambiguous.npy
+```
 
+## One-hot array
+
+The output file contains 3d one-hot array of `RxNxL` (Read x Nucreotide/Amino acid x Letter)
+
+- Nucreotide order is `ACGT` (+ `NVHDBMRWSYK`) for DNA, `ACGU` (+ `NVHDBMRWSYK`) for RNA
+- Amino acid order is `ACDEFGHIKLMNPQRSTVWY` (+ `XBZJ`)
+
+
+```python
+# Original sequences:
+## ACGTACGTACGTACGT
+## CCCCCCCCTTTTTTTT
+
+onehot = np.load("dna.npy")
+
+onehot.shape
+# (2, 16, 4) <- 2 reads x 16 nucreotides x 4 letters (ACGT)
+
+onehot
+# array([[[1., 0., 0., 0.],
+#         [0., 1., 0., 0.],
+#         [0., 0., 1., 0.],
+#         [0., 0., 0., 1.],
+#         [1., 0., 0., 0.],
+#         [0., 1., 0., 0.],
+#         [0., 0., 1., 0.],
+#         [0., 0., 0., 1.],
+#         [1., 0., 0., 0.],
+#         [0., 1., 0., 0.],
+#         [0., 0., 1., 0.],
+#         [0., 0., 0., 1.],
+#         [1., 0., 0., 0.],
+#         [0., 1., 0., 0.],
+#         [0., 0., 1., 0.],
+#         [0., 0., 0., 1.]],
+
+#        [[0., 1., 0., 0.],
+#         [0., 1., 0., 0.],
+#         [0., 1., 0., 0.],
+#         [0., 1., 0., 0.],
+#         [0., 1., 0., 0.],
+#         [0., 1., 0., 0.],
+#         [0., 1., 0., 0.],
+#         [0., 1., 0., 0.],
+#         [0., 0., 0., 1.],
+#         [0., 0., 0., 1.],
+#         [0., 0., 0., 1.],
+#         [0., 0., 0., 1.],
+#         [0., 0., 0., 1.],
+#         [0., 0., 0., 1.],
+#         [0., 0., 0., 1.],
+#         [0., 0., 0., 1.]]])
 ```
 
