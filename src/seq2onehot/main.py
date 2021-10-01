@@ -1,25 +1,44 @@
 import argparse
 import numpy as np
 import pandas as pd
+import re
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-i", "--input",
-                    metavar="<in.fasta>",
-                    help="FASTA or Sequence file",
-                    required=True)
-parser.add_argument("-o", "--output",
-                    metavar="<out.npy>",
-                    help="Numpy .npy format",
-                    required=True)
-parser.add_argument("-t", "--type",
-                    metavar="<dna/rna/protein>",
-                    choices=['dna', 'rna', 'protein'],
-                    help="Sequence type (DNA/RNA/Protein)",
-                    required=True)
-parser.add_argument("-a", "--ambiguous",
-                    help="Accept ambiguous characters",
-                    action="store_true",)
-args = parser.parse_args()
+
+def parse():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--input",
+                        metavar="<in.fasta>",
+                        help="FASTA or Sequence file",
+                        required=True)
+    parser.add_argument("-o", "--output",
+                        metavar="<out.npy>",
+                        help="Numpy .npy format",
+                        required=True)
+    parser.add_argument("-t", "--type",
+                        metavar="<dna/rna/protein>",
+                        choices=['dna', 'rna', 'protein'],
+                        help="Sequence type (DNA/RNA/Protein)",
+                        required=True)
+    parser.add_argument("-a", "--ambiguous",
+                        help="Accept ambiguous characters",
+                        action="store_true",)
+    args = parser.parse_args()
+    return args
+
+
+def load_fasta(fasta_file):
+    with open(fasta_file, "r") as f:
+        content = f.read()
+        regex = re.compile("(>.*?)\n([A-Za-z\n]*)", re.DOTALL)
+        wrap_fasta = re.findall(regex, content)
+        seq = list()
+        append = seq.append
+        if wrap_fasta:
+            for i in wrap_fasta:
+                append(i[1].replace('\n', '').upper())
+        else:
+            seq = content.splitlines()
+    return seq
 
 
 def define_alphabet(seqtype, ambiguous):
@@ -38,10 +57,9 @@ def define_alphabet(seqtype, ambiguous):
     return alphabet
 
 
-def seq2onehot(seq):
-    alphabet = define_alphabet(args.type, args.ambiguous)
+def seq2onehot(seq, type, ambiguous):
+    alphabet = define_alphabet(type, ambiguous)
     onehot = np.zeros([len(seq), len(seq[0]), len(alphabet)])
-
     for i, s in enumerate(seq):
         s_series = pd.Series(list(alphabet + s))
         alphabet_categorical = pd.factorize(s_series)[0]
@@ -53,9 +71,7 @@ def seq2onehot(seq):
 
 
 if __name__ == "__main__":
-    with open(args.input, "r") as f:
-        seq = [s.strip() for s in f]
-    seq = [s for s in seq if ">" not in s]
-    onehot = seq2onehot(seq)
+    args = parse()
+    seq = load_fasta(args.input)
+    onehot = seq2onehot(seq, args.type, args.ambiguous)
     np.save(args.output, onehot)
-
