@@ -1,6 +1,5 @@
 import argparse
 import numpy as np
-import pandas as pd
 import re
 
 
@@ -62,8 +61,8 @@ def seq2onehot(seq, type, ambiguous):
     alphabet = define_alphabet(type, ambiguous)
     onehot = np.zeros([len(seq), len(seq[0]), len(alphabet)])
     for i, s in enumerate(seq):
-        s_series = pd.Series(list(alphabet + s))
-        alphabet_categorical = pd.factorize(s_series)[0]
+        s_list = list(alphabet + s)
+        alphabet_categorical = np.unique(s_list, return_inverse=True)[1]
         alphabet_categorical = np.expand_dims(alphabet_categorical, 0)
         oh = np.eye(len(alphabet), dtype=np.uint8)[alphabet_categorical]
         oh = oh[:, len(alphabet):]
