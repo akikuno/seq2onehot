@@ -22,6 +22,7 @@ def parse():
     parser.add_argument("-a", "--ambiguous",
                         help="Accept ambiguous characters",
                         action="store_true",)
+    parser.add_argument('-v', '--version', action='version', version='0.0.1')
     args = parser.parse_args()
     return args
 
@@ -70,8 +71,12 @@ def seq2onehot(seq, type, ambiguous):
     return onehot
 
 
-if __name__ == "__main__":
+def main():
     args = parse()
     seq = load_fasta(args.input)
     onehot = seq2onehot(seq, args.type, args.ambiguous)
     np.save(args.output, onehot)
+
+
+if __name__ == "__main__":
+    main()
