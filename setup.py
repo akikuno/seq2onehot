@@ -7,7 +7,7 @@ setuptools.setup(
     description="encoding a biological sequence to a one-hot numpy array",
     install_requires=["numpy"],
     name="seq2onehot",
-    version="0.0.0.9999",
+    version="0.0.1",
     entry_points={
         'console_scripts': [
             'seq2onehot=seq2onehot.main:main',
