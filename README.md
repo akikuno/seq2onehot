@@ -1,6 +1,6 @@
 [![licence](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
 [![PyPI version](https://img.shields.io/badge/Install%20with-PyPI-brightgreen.svg?style=flat-square)](https://pypi.org/project/seq2onehot/)
-<!-- [![install with bioconda](https://img.shields.io/badge/Install%20with-Bioconda-brightgreen.svg?style=flat-square)](https://anaconda.org/bioconda/seq2onehot) -->
+[![install with bioconda](https://img.shields.io/badge/Install%20with-Bioconda-brightgreen.svg?style=flat-square)](https://anaconda.org/bioconda/seq2onehot)
 
 ## Description
 
@@ -14,17 +14,16 @@ https://github.com/akikuno/onehot2seq
 
 ## Installation
 
-You can install `seq2onehot` using pip:
+You can install `seq2onehot` using pip or bioconda:
 
 ```bash
 pip install seq2onehot
 ```
-<!-- 
-Alternatively, you can get `seq2onehot` from bioconda:
 
-```
+```bash
 conda install -c bioconda seq2onehot
-``` -->
+```
+
 
 ## Usage
 
